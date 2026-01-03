@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import api from '../services/authService';
+import api from '../services/api';
 import '../styles/UserProfile.css';
 
 function UserProfile() {
