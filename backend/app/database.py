@@ -1,5 +1,6 @@
 """
 Database setup and models for IPC-BNS mapping and case law
+Includes authentication and subscription models
 """
 from sqlalchemy import create_engine, Column, Integer, String, Text, DateTime, Boolean, ForeignKey, Table
 from sqlalchemy.ext.declarative import declarative_base
@@ -92,7 +93,12 @@ class AnalysisHistory(Base):
 
 # Database initialization
 def init_db(db_path="sqlite:///./legal_reasoning.db"):
+    """Initialize database and create all tables including auth models"""
     engine = create_engine(db_path, echo=False)
+
+    # Import auth models here to ensure they're registered with Base
+    from auth_models import User, Subscription, UsageLog, SavedAnalysis, APIKey, PaymentHistory
+
     Base.metadata.create_all(engine)
     SessionLocal = sessionmaker(bind=engine)
     return engine, SessionLocal

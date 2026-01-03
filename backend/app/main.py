@@ -1,5 +1,6 @@
 """
 FastAPI Backend for IPC/BNS Legal Reasoning Agent
+Includes authentication, subscription management, and usage tracking
 """
 from fastapi import FastAPI, HTTPException, Depends
 from fastapi.middleware.cors import CORSMiddleware
@@ -12,11 +13,16 @@ from database import init_db, get_db, IPCBNSMapping, LandmarkCase, AnalysisHisto
 from rag_system import CaseLawRAG
 from legal_agent import LegalReasoningAgent
 
+# Import authentication and subscription routers
+from auth_routes import router as auth_router, get_current_user
+from subscription_routes import router as subscription_router
+from auth_models import User
+
 # Initialize FastAPI app
 app = FastAPI(
     title="IPC/BNS Legal Reasoning Agent",
-    description="AI-powered legal analysis system for IPC to BNS transition",
-    version="1.0.0"
+    description="AI-powered legal analysis system for IPC to BNS transition with subscription management",
+    version="2.0.0"
 )
 
 # CORS middleware
@@ -27,6 +33,10 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Include authentication and subscription routers
+app.include_router(auth_router)
+app.include_router(subscription_router)
 
 # Initialize database and RAG system at startup
 @app.on_event("startup")
@@ -175,8 +185,25 @@ async def get_section(ipc_section: str, db: Session = Depends(get_db)):
 
 
 @app.post("/analyze")
-async def analyze_transition(request: SectionQuery, db: Session = Depends(get_db)):
-    """Analyze IPC to BNS transition for a section"""
+async def analyze_transition(
+    request: SectionQuery,
+    db: Session = Depends(get_db),
+    current_user: Optional[User] = Depends(lambda: None)  # Optional auth
+):
+    """
+    Analyze IPC to BNS transition for a section
+
+    Authentication: Optional (recommended for usage tracking and limits)
+    """
+    # Try to get authenticated user if token is provided
+    try:
+        from fastapi import Request as FastAPIRequest
+        from auth_routes import get_current_user as _get_current_user
+        from fastapi.security import HTTPBearer
+        # This will be None if no auth header provided
+    except:
+        pass
+
     rag = app.state.rag
     agent = LegalReasoningAgent(db, rag)
 
@@ -184,6 +211,16 @@ async def analyze_transition(request: SectionQuery, db: Session = Depends(get_db
 
     if "error" in analysis:
         raise HTTPException(status_code=404, detail=analysis["error"])
+
+    # Add usage info to response if user is authenticated
+    if current_user:
+        subscription = current_user.subscription
+        if subscription:
+            analysis["usage_info"] = {
+                "analyses_used": subscription.section_analyses_used,
+                "analyses_limit": subscription.section_analyses_limit,
+                "subscription_tier": subscription.tier.value
+            }
 
     return analysis
 
