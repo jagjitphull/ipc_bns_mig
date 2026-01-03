@@ -16,3 +16,26 @@ pandas==2.2.0
 tiktoken==0.5.2
 aiofiles==23.2.1
 httpx==0.26.0
+
+# Authentication & Security
+python-jose[cryptography]==3.3.0
+passlib[bcrypt]==1.7.4
+python-multipart==0.0.6
+bcrypt==4.1.2
+
+# Payment Processing
+stripe==8.0.0
+
+# Email
+fastapi-mail==1.4.1
+
+# Rate Limiting & Caching
+slowapi==0.1.9
+redis==5.0.1
+
+# Token & Session Management
+itsdangerous==2.1.2
+
+# Additional utilities
+email-validator==2.1.0
+phonenumbers==8.13.27
