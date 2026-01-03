@@ -8,9 +8,9 @@ from typing import List, Optional
 from sqlalchemy.orm import Session
 import uvicorn
 
-from app.database import init_db, get_db, IPCBNSMapping, LandmarkCase, AnalysisHistory
-from app.rag_system import CaseLawRAG
-from app.legal_agent import LegalReasoningAgent
+from database import init_db, get_db, IPCBNSMapping, LandmarkCase, AnalysisHistory
+from rag_system import CaseLawRAG
+from legal_agent import LegalReasoningAgent
 
 # Initialize FastAPI app
 app = FastAPI(
