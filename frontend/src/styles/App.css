@@ -327,6 +327,16 @@ code {
   margin-bottom: 2rem;
 }
 
+.suggestion-box {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: #e7f3ff;
+  border-left: 4px solid #667eea;
+  border-radius: 5px;
+  color: #2c3e50;
+  font-size: 0.95rem;
+}
+
 .input-group {
   display: flex;
   gap: 1rem;
