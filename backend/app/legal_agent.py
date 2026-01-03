@@ -32,7 +32,7 @@ class LegalReasoningAgent:
         - Relevant case law
         - Validity warnings
         """
-        from app.database import IPCBNSMapping
+        from database import IPCBNSMapping
 
         # Get mapping from database
         mapping = self.db.query(IPCBNSMapping).filter(
