@@ -24,4 +24,5 @@ RUN mkdir -p /app/data /app/chroma_db
 EXPOSE 8000
 
 # Run database initialization and start server
-CMD ["sh", "-c", "cd app && python init_db.py && python -m uvicorn main:app --host 0.0.0.0 --port 8000"]
+# Database init will skip if data exists (set FORCE_DB_INIT=true to force reinit)
+CMD ["sh", "-c", "cd app && python init_db.py || true && python -m uvicorn main:app --host 0.0.0.0 --port 8000"]

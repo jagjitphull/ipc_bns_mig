@@ -3,6 +3,7 @@ Database initialization script
 Populates the database with IPC-BNS mappings and landmark cases
 """
 import sys
+import os
 from sqlalchemy.orm import Session
 
 from database import init_db, IPCBNSMapping, LandmarkCase
@@ -10,8 +11,12 @@ from ipc_bns_data import IPC_BNS_MAPPINGS, LANDMARK_CASES
 from rag_system import CaseLawRAG
 
 
-def populate_database():
-    """Populate database with IPC-BNS mappings and landmark cases"""
+def populate_database(force_reinit=False):
+    """Populate database with IPC-BNS mappings and landmark cases
+
+    Args:
+        force_reinit: If True, clear and repopulate even if data exists
+    """
 
     print("Initializing database...")
     engine, SessionLocal = init_db()
@@ -22,16 +27,31 @@ def populate_database():
         existing_sections = db.query(IPCBNSMapping).count()
         if existing_sections > 0:
             print(f"Database already contains {existing_sections} sections.")
-            response = input("Do you want to clear and repopulate? (yes/no): ")
-            if response.lower() != 'yes':
-                print("Aborted.")
+
+            # Check if running in interactive mode
+            is_interactive = sys.stdin.isatty()
+
+            # Check environment variable for forced reinitialization
+            force_from_env = os.getenv('FORCE_DB_INIT', '').lower() in ['true', '1', 'yes']
+
+            if force_reinit or force_from_env:
+                print("Forcing database reinitialization...")
+            elif is_interactive:
+                response = input("Do you want to clear and repopulate? (yes/no): ")
+                if response.lower() != 'yes':
+                    print("Skipping initialization - using existing data.")
+                    return
+            else:
+                # Non-interactive mode and no force flag - skip initialization
+                print("✓ Using existing database. Set FORCE_DB_INIT=true to reinitialize.")
                 return
 
             # Clear existing data
+            print("Clearing existing data...")
             db.query(IPCBNSMapping).delete()
             db.query(LandmarkCase).delete()
             db.commit()
-            print("Cleared existing data.")
+            print("✓ Cleared existing data.")
 
         # Add IPC-BNS mappings
         print(f"\nAdding {len(IPC_BNS_MAPPINGS)} IPC-BNS section mappings...")
@@ -121,4 +141,6 @@ def populate_database():
 
 
 if __name__ == "__main__":
-    populate_database()
+    # Check command line arguments
+    force = '--force' in sys.argv or '-f' in sys.argv
+    populate_database(force_reinit=force)
