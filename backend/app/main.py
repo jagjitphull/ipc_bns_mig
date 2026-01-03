@@ -32,9 +32,29 @@ app.add_middleware(
 @app.on_event("startup")
 async def startup_event():
     """Initialize database and RAG system"""
+    from ipc_bns_data import LANDMARK_CASES
+
     engine, SessionLocal = init_db()
     app.state.SessionLocal = SessionLocal
+
+    # Initialize RAG system
+    print("Initializing RAG system for case search...")
     app.state.rag = CaseLawRAG()
+
+    # Check if RAG collection is empty and populate if needed
+    try:
+        count = app.state.rag.collection.count()
+        if count == 0:
+            print(f"RAG collection empty. Adding {len(LANDMARK_CASES)} cases...")
+            app.state.rag.add_cases(LANDMARK_CASES)
+            print(f"✓ Added {len(LANDMARK_CASES)} cases to RAG system")
+        else:
+            print(f"✓ RAG system already has {count} cases indexed")
+    except Exception as e:
+        print(f"Warning: Could not check RAG collection: {e}")
+        print(f"Initializing with {len(LANDMARK_CASES)} cases...")
+        app.state.rag.add_cases(LANDMARK_CASES)
+
     print("✓ Database and RAG system initialized")
 
 
