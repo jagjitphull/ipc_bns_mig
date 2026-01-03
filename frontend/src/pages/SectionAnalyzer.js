@@ -1,11 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { apiService } from '../services/api';
 
 function SectionAnalyzer() {
+  const location = useLocation();
   const [ipcSection, setIpcSection] = useState('');
   const [analysis, setAnalysis] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [suggestionText, setSuggestionText] = useState('');
+
+  // Handle navigation from dashboard with filter state
+  useEffect(() => {
+    if (location.state?.filter) {
+      const filter = location.state.filter;
+      if (filter === 'changes') {
+        setSuggestionText('Try: 124A (Sedition→Sovereignty), 304A (Death by negligence - enhanced punishment)');
+      } else if (filter === 'repealed') {
+        setSuggestionText('Try: 497 (Adultery - decriminalized and repealed)');
+      }
+    }
+  }, [location]);
 
   const handleAnalyze = async (e) => {
     e.preventDefault();
@@ -69,6 +84,11 @@ function SectionAnalyzer() {
             {loading ? 'Analyzing...' : 'Analyze'}
           </button>
         </div>
+        {suggestionText && (
+          <div className="suggestion-box">
+            💡 <strong>Suggestion:</strong> {suggestionText}
+          </div>
+        )}
       </form>
 
       {error && (

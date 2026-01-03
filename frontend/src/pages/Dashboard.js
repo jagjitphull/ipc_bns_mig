@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { apiService } from '../services/api';
 
 function Dashboard() {
+  const navigate = useNavigate();
   const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -21,6 +23,25 @@ function Dashboard() {
     } finally {
       setLoading(false);
     }
+  };
+
+  // Navigation handlers for clickable cards
+  const handleSectionsClick = () => {
+    navigate('/analyze');
+  };
+
+  const handleChangesClick = () => {
+    // Navigate to analyzer with a hint to search changed sections
+    navigate('/analyze', { state: { filter: 'changes' } });
+  };
+
+  const handleRepealedClick = () => {
+    // Navigate to analyzer to search repealed section (497)
+    navigate('/analyze', { state: { filter: 'repealed' } });
+  };
+
+  const handleCasesClick = () => {
+    navigate('/cases');
   };
 
   if (loading) {
@@ -43,24 +64,28 @@ function Dashboard() {
       </div>
 
       <div className="stats-grid">
-        <div className="stat-card">
+        <div className="stat-card clickable" onClick={handleSectionsClick} title="Click to go to Section Analyzer">
           <div className="stat-number">{stats?.total_ipc_sections || 0}</div>
           <div className="stat-label">Total IPC Sections</div>
+          <div className="card-hint">Click to analyze →</div>
         </div>
 
-        <div className="stat-card highlight">
+        <div className="stat-card highlight clickable" onClick={handleChangesClick} title="Click to view sections with changes">
           <div className="stat-number">{stats?.sections_with_changes || 0}</div>
           <div className="stat-label">Sections with Changes</div>
+          <div className="card-hint">Click to explore →</div>
         </div>
 
-        <div className="stat-card warning">
+        <div className="stat-card warning clickable" onClick={handleRepealedClick} title="Click to view repealed sections">
           <div className="stat-number">{stats?.repealed_sections || 0}</div>
           <div className="stat-label">Repealed Sections</div>
+          <div className="card-hint">Click to view →</div>
         </div>
 
-        <div className="stat-card">
+        <div className="stat-card clickable" onClick={handleCasesClick} title="Click to go to Case Search">
           <div className="stat-number">{stats?.total_landmark_cases || 0}</div>
           <div className="stat-label">Landmark Cases</div>
+          <div className="card-hint">Click to search →</div>
         </div>
       </div>
 
