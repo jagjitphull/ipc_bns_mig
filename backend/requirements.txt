@@ -19,9 +19,9 @@ httpx==0.26.0
 
 # Authentication & Security
 python-jose[cryptography]==3.3.0
-passlib[bcrypt]==1.7.4
+passlib[argon2]==1.7.4
+argon2-cffi==23.1.0
 python-multipart==0.0.6
-bcrypt==3.2.2
 
 # Payment Processing
 stripe==8.0.0
