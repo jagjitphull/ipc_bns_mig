@@ -1,0 +1,248 @@
+/* Usage Indicator Component */
+.usage-indicator {
+  background: white;
+  border-radius: 10px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem;
+  border-left: 4px solid #667eea;
+  transition: all 0.3s ease;
+}
+
+.usage-indicator.limit-reached {
+  border-left-color: #dc3545;
+  background: linear-gradient(135deg, #fff5f5 0%, #ffffff 100%);
+}
+
+.usage-indicator.loading {
+  text-align: center;
+  color: #5a6c7d;
+  padding: 1rem;
+  font-size: 0.95rem;
+}
+
+/* Guest Mode */
+.usage-indicator.guest-mode {
+  background: linear-gradient(135deg, #e7f3ff 0%, #ffffff 100%);
+  border-left-color: #667eea;
+}
+
+.guest-message {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.guest-icon {
+  font-size: 1.5rem;
+}
+
+.guest-message span:nth-child(2) {
+  flex: 1;
+  font-weight: 600;
+  color: #1e3c72;
+  font-size: 1.05rem;
+}
+
+.btn-signup {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-size: 1rem;
+}
+
+.btn-signup:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+/* Usage Header */
+.usage-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.usage-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.label-icon {
+  font-size: 1.2rem;
+}
+
+.label-text {
+  font-weight: 600;
+  color: #1e3c72;
+  font-size: 1.1rem;
+}
+
+.usage-count {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 700;
+  color: #2c3e50;
+  font-size: 1.1rem;
+}
+
+.usage-period {
+  font-size: 0.85rem;
+  color: #5a6c7d;
+  font-weight: 500;
+  background: #f8f9fa;
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+}
+
+/* Progress Bar */
+.usage-progress-bar {
+  width: 100%;
+  height: 10px;
+  background: #e9ecef;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 1rem;
+}
+
+.usage-progress-fill {
+  height: 100%;
+  border-radius: 10px;
+  transition: width 0.5s ease, background-color 0.3s ease;
+}
+
+/* Warning Messages */
+.limit-warning {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: #fff3cd;
+  border: 2px solid #ffc107;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+}
+
+.warning-icon {
+  font-size: 1.5rem;
+}
+
+.warning-text {
+  flex: 1;
+  color: #856404;
+  font-weight: 600;
+  min-width: 200px;
+}
+
+.btn-upgrade-small {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  padding: 0.6rem 1.25rem;
+  border-radius: 5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-size: 0.95rem;
+  white-space: nowrap;
+}
+
+.btn-upgrade-small:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+/* Info Messages */
+.limit-approaching {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: #e7f3ff;
+  border: 1px solid #b3d9ff;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  margin-top: 0.5rem;
+}
+
+.info-icon {
+  font-size: 1.2rem;
+  color: #667eea;
+}
+
+.info-text {
+  color: #1e3c72;
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+
+/* Unlimited Badge */
+.unlimited-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+  border: 2px solid #4caf50;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  margin-top: 0.5rem;
+  justify-content: center;
+}
+
+.unlimited-icon {
+  font-size: 1.5rem;
+  color: #2e7d32;
+}
+
+.unlimited-badge span:last-child {
+  color: #1b5e20;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .usage-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .usage-count {
+    font-size: 1rem;
+  }
+
+  .guest-message {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .btn-signup,
+  .btn-upgrade-small {
+    width: 100%;
+  }
+
+  .limit-warning {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .warning-text {
+    min-width: auto;
+  }
+
+  .label-text {
+    font-size: 1rem;
+  }
+}

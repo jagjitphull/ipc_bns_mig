@@ -8,6 +8,8 @@ import MemoGenerator from './pages/MemoGenerator';
 import CaseSearch from './pages/CaseSearch';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import UserProfile from './pages/UserProfile';
+import Pricing from './pages/Pricing';
 import './styles/App.css';
 import './styles/Auth.css';
 
@@ -33,12 +35,13 @@ function Navbar() {
           <Link to="/analyze" className="nav-link">Section Analyzer</Link>
           <Link to="/memo" className="nav-link">Memo Generator</Link>
           <Link to="/cases" className="nav-link">Case Search</Link>
+          {!isAuthenticated && <Link to="/pricing" className="nav-link">Pricing</Link>}
 
           {isAuthenticated ? (
             <div className="user-menu">
-              <span className="user-greeting">
+              <Link to="/profile" className="nav-link">
                 👤 {user?.full_name || user?.email}
-              </span>
+              </Link>
               <span className="subscription-badge">
                 {user?.subscription_tier?.toUpperCase() || 'FREE'}
               </span>
@@ -71,12 +74,16 @@ function AppContent() {
           {/* Public routes */}
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/pricing" element={<Pricing />} />
 
           {/* Main application routes - accessible to all (backend has optional auth) */}
           <Route path="/" element={<Dashboard />} />
           <Route path="/analyze" element={<SectionAnalyzer />} />
           <Route path="/memo" element={<MemoGenerator />} />
           <Route path="/cases" element={<CaseSearch />} />
+
+          {/* User routes */}
+          <Route path="/profile" element={<UserProfile />} />
         </Routes>
       </div>
 

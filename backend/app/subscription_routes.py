@@ -1,6 +1,7 @@
 """
 Subscription management and usage tracking routes
 """
+import os
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from pydantic import BaseModel
@@ -221,7 +222,9 @@ async def upgrade_subscription(
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db)
 ):
-    """Upgrade subscription tier (Stripe integration would go here)"""
+    """Upgrade subscription tier with Stripe checkout"""
+
+    from stripe_service import StripeService
 
     subscription = current_user.subscription
 
@@ -230,9 +233,6 @@ async def upgrade_subscription(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="No subscription found"
         )
-
-    # TODO: Integrate with Stripe for payment processing
-    # For now, just update the tier
 
     old_tier = subscription.tier
     new_tier = upgrade_data.tier
@@ -243,24 +243,37 @@ async def upgrade_subscription(
             detail="Already on this tier"
         )
 
-    # Update subscription
-    limits = get_subscription_limits(new_tier)
-    subscription.tier = new_tier
-    subscription.status = SubscriptionStatus.ACTIVE
-    subscription.current_period_start = datetime.utcnow()
-    subscription.current_period_end = datetime.utcnow() + timedelta(days=30)
+    # Check if upgrading (not downgrading)
+    tier_order = {SubscriptionTier.FREE: 0, SubscriptionTier.PROFESSIONAL: 1, SubscriptionTier.ENTERPRISE: 2}
+    if tier_order.get(new_tier, 0) < tier_order.get(old_tier, 0):
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Cannot downgrade tiers. Please cancel your current subscription first."
+        )
 
-    # Update limits
-    for key, value in limits.items():
-        if key.endswith('_limit'):
-            setattr(subscription, key, value)
+    # Create Stripe checkout session
+    frontend_url = os.getenv('FRONTEND_URL', 'http://localhost:3000')
+    success_url = f"{frontend_url}/profile?payment=success"
+    cancel_url = f"{frontend_url}/pricing?payment=cancelled"
 
-    db.commit()
+    checkout_url = StripeService.create_checkout_session(
+        user=current_user,
+        tier=new_tier,
+        success_url=success_url,
+        cancel_url=cancel_url,
+        db=db
+    )
+
+    if not checkout_url:
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail="Stripe payment service is not configured. Please contact support."
+        )
 
     return {
-        "message": f"Successfully upgraded from {old_tier.value} to {new_tier.value}",
-        "new_tier": new_tier.value,
-        "limits": limits
+        "checkout_url": checkout_url,
+        "tier": new_tier.value,
+        "message": "Redirecting to checkout..."
     }
 
 
@@ -269,7 +282,9 @@ async def cancel_subscription(
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db)
 ):
-    """Cancel subscription (will remain active until end of billing period)"""
+    """Cancel subscription with Stripe (will remain active until end of billing period)"""
+
+    from stripe_service import StripeService
 
     subscription = current_user.subscription
 
@@ -285,15 +300,18 @@ async def cancel_subscription(
             detail="Subscription already cancelled"
         )
 
-    # TODO: Cancel on Stripe
+    # Cancel on Stripe
+    success = StripeService.cancel_subscription(current_user, db)
 
-    subscription.status = SubscriptionStatus.CANCELLED
-
-    db.commit()
+    if not success:
+        # If Stripe not configured or error, cancel locally
+        subscription.status = SubscriptionStatus.CANCELLED
+        subscription.cancelled_at = datetime.utcnow()
+        db.commit()
 
     return {
         "message": "Subscription cancelled. Access will continue until end of billing period.",
-        "access_until": subscription.current_period_end
+        "access_until": subscription.current_period_end.isoformat() if subscription.current_period_end else None
     }
 
 

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { apiService } from '../services/api';
+import UsageIndicator from '../components/UsageIndicator';
 
 function MemoGenerator() {
   const [sections, setSections] = useState('');
@@ -62,6 +63,8 @@ function MemoGenerator() {
         Generate comprehensive lawyer-style memoranda analyzing IPC to BNS transitions
         with validity warnings and recommendations.
       </p>
+
+      <UsageIndicator actionType="memo_generation" />
 
       <form onSubmit={handleGenerate} className="memo-form">
         <div className="form-group">

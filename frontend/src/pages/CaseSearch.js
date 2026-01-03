@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { apiService } from '../services/api';
+import UsageIndicator from '../components/UsageIndicator';
 
 function CaseSearch() {
   const [query, setQuery] = useState('');
@@ -48,6 +49,8 @@ function CaseSearch() {
         Semantic search over landmark cases using RAG (Retrieval Augmented Generation).
         Search by facts, legal issues, or legal principles.
       </p>
+
+      <UsageIndicator actionType="case_search" />
 
       <form onSubmit={handleSearch} className="search-form">
         <div className="input-group">

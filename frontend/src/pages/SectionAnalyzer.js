@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { apiService } from '../services/api';
+import UsageIndicator from '../components/UsageIndicator';
 
 function SectionAnalyzer() {
   const location = useLocation();
@@ -70,6 +71,8 @@ function SectionAnalyzer() {
         Analyze the transition of an IPC section to BNS, including doctrinal changes,
         relevant case law, and validity warnings.
       </p>
+
+      <UsageIndicator actionType="section_analysis" />
 
       <form onSubmit={handleAnalyze} className="search-form">
         <div className="input-group">
