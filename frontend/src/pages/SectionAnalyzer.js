@@ -3,6 +3,59 @@ import { useLocation } from 'react-router-dom';
 import { apiService } from '../services/api';
 import UsageIndicator from '../components/UsageIndicator';
 
+// Popular and newly added sections for quick access
+const POPULAR_SECTIONS = [
+  { section: '302', description: 'Murder', category: 'Life Offences', isNew: false },
+  { section: '307', description: 'Attempt to murder', category: 'Life Offences', isNew: true },
+  { section: '376', description: 'Rape', category: 'Sexual Offences', isNew: false },
+  { section: '377', description: 'Unnatural offences (Repealed)', category: 'Sexual Offences', isNew: true },
+  { section: '420', description: 'Cheating', category: 'Property Offences', isNew: false },
+  { section: '498A', description: 'Cruelty by husband', category: 'Offences Against Women', isNew: true },
+];
+
+const SECTION_CATEGORIES = [
+  {
+    name: 'Offences Against Life',
+    sections: ['302', '304', '304A', '306', '307', '308'],
+    icon: '⚖️'
+  },
+  {
+    name: 'Sexual Offences',
+    sections: ['354', '375', '376', '377', '509'],
+    icon: '🚨'
+  },
+  {
+    name: 'Property Offences',
+    sections: ['378', '379', '380', '392', '403', '405', '406', '415', '417', '420', '425', '426', '463', '465', '467', '468', '471'],
+    icon: '🏛️'
+  },
+  {
+    name: 'Offences Against Women',
+    sections: ['304B', '354', '498A', '509'],
+    icon: '👩‍⚖️'
+  },
+  {
+    name: 'Public Tranquility',
+    sections: ['141', '143', '147', '153A'],
+    icon: '🔔'
+  },
+  {
+    name: 'Abetment & Conspiracy',
+    sections: ['107', '109', '120A', '120B'],
+    icon: '🤝'
+  },
+  {
+    name: 'Kidnapping',
+    sections: ['363', '365', '366'],
+    icon: '🚫'
+  },
+  {
+    name: 'Hurt & Grievous Hurt',
+    sections: ['320', '323', '325', '326'],
+    icon: '🩹'
+  }
+];
+
 function SectionAnalyzer() {
   const location = useLocation();
   const [ipcSection, setIpcSection] = useState('');
@@ -10,6 +63,7 @@ function SectionAnalyzer() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [suggestionText, setSuggestionText] = useState('');
+  const [showBrowse, setShowBrowse] = useState(false);
 
   // Handle navigation from dashboard with filter state
   useEffect(() => {
@@ -33,6 +87,7 @@ function SectionAnalyzer() {
     try {
       setLoading(true);
       setError(null);
+      setShowBrowse(false); // Hide browse when analyzing
       const response = await apiService.analyzeSection(ipcSection);
       setAnalysis(response.data);
     } catch (err) {
@@ -41,6 +96,16 @@ function SectionAnalyzer() {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleQuickSection = (section) => {
+    setIpcSection(section);
+    setShowBrowse(false);
+    // Auto-submit
+    setTimeout(() => {
+      const form = document.querySelector('.search-form');
+      if (form) form.requestSubmit();
+    }, 100);
   };
 
   const getChangeTypeClass = (changeType) => {
@@ -93,6 +158,69 @@ function SectionAnalyzer() {
           </div>
         )}
       </form>
+
+      {/* Popular Sections - Show when no analysis */}
+      {!analysis && !loading && (
+        <div className="suggestions-container">
+          <div className="popular-sections">
+            <h3>🔥 Popular Sections</h3>
+            <div className="section-chips">
+              {POPULAR_SECTIONS.map((item) => (
+                <button
+                  key={item.section}
+                  className={`section-chip ${item.isNew ? 'new-section' : ''}`}
+                  onClick={() => handleQuickSection(item.section)}
+                  title={item.description}
+                >
+                  <span className="chip-section">{item.section}</span>
+                  <span className="chip-description">{item.description}</span>
+                  {item.isNew && <span className="new-badge">NEW</span>}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="browse-toggle">
+            <button
+              className="btn-secondary"
+              onClick={() => setShowBrowse(!showBrowse)}
+            >
+              {showBrowse ? '📕 Hide Categories' : '📚 Browse by Category'}
+            </button>
+          </div>
+
+          {showBrowse && (
+            <div className="category-browser">
+              <h3>Browse Sections by Category</h3>
+              <div className="categories-grid">
+                {SECTION_CATEGORIES.map((category) => (
+                  <div key={category.name} className="category-card">
+                    <h4>
+                      <span className="category-icon">{category.icon}</span>
+                      {category.name}
+                    </h4>
+                    <div className="category-sections">
+                      {category.sections.map((section) => (
+                        <button
+                          key={section}
+                          className="category-section-btn"
+                          onClick={() => handleQuickSection(section)}
+                        >
+                          {section}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          <div className="help-text">
+            💡 <strong>Tip:</strong> Click any section above to analyze it instantly, or type a section number in the search box.
+          </div>
+        </div>
+      )}
 
       {error && (
         <div className="error-message">
