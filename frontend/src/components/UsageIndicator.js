@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import api from '../services/authService';
+import api from '../services/api';
 import './UsageIndicator.css';
 
 /**
@@ -15,6 +15,13 @@ function UsageIndicator({ actionType, showUpgradePrompt = true }) {
   const [usageInfo, setUsageInfo] = useState(null);
   const [loading, setLoading] = useState(true);
   const [showLimitModal, setShowLimitModal] = useState(false);
+
+  // Free tier limits for guest users
+  const FREE_TIER_LIMITS = {
+    section_analysis: { limit: 10, label: 'Section Analyses', period: 'per month' },
+    memo_generation: { limit: 5, label: 'Memos', period: 'per month' },
+    case_search: { limit: 3, label: 'Case Searches', period: 'per day' },
+  };
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -59,7 +66,7 @@ function UsageIndicator({ actionType, showUpgradePrompt = true }) {
       case 'case_search':
         return {
           used: usage.case_search_used || 0,
-          limit: limits.case_search_daily_limit,
+          limit: limits.case_search_limit,
           label: 'Case Searches',
           period: 'today'
         };
@@ -85,11 +92,24 @@ function UsageIndicator({ actionType, showUpgradePrompt = true }) {
   };
 
   if (!isAuthenticated) {
+    const guestLimit = FREE_TIER_LIMITS[actionType];
+    if (!guestLimit) return null;
+
     return (
       <div className="usage-indicator guest-mode">
+        <div className="usage-header">
+          <div className="usage-label">
+            <span className="label-icon">🔒</span>
+            <span className="label-text">Free Tier Limit</span>
+          </div>
+          <div className="usage-count">
+            {guestLimit.limit} {guestLimit.label}
+            <span className="usage-period">{guestLimit.period}</span>
+          </div>
+        </div>
         <div className="guest-message">
           <span className="guest-icon">👋</span>
-          <span>You're in guest mode with limited features</span>
+          <span>Sign up to track your usage and get started with {guestLimit.limit} {guestLimit.label.toLowerCase()} {guestLimit.period}!</span>
           <button className="btn-signup" onClick={() => navigate('/register')}>
             Sign Up Free
           </button>
