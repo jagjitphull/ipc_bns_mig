@@ -1,12 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
 import { apiService } from '../services/api';
+import LandingPage from './LandingPage';
 
 function Dashboard() {
   const navigate = useNavigate();
+  const { isAuthenticated } = useAuth();
   const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  // Show landing page for non-authenticated users
+  if (!isAuthenticated) {
+    return <LandingPage />;
+  }
 
   useEffect(() => {
     loadStats();

@@ -42,8 +42,8 @@ function Pricing() {
           limits: {
             section_analyses_limit: 10,
             memo_generation_limit: 5,
-            case_search_daily_limit: 3,
-            api_calls_daily_limit: 0
+            case_search_limit: 3,
+            api_calls_limit: 0
           }
         },
         {
@@ -63,8 +63,8 @@ function Pricing() {
           limits: {
             section_analyses_limit: -1,
             memo_generation_limit: 50,
-            case_search_daily_limit: -1,
-            api_calls_daily_limit: 100
+            case_search_limit: -1,
+            api_calls_limit: 100
           },
           recommended: true
         },
@@ -87,8 +87,8 @@ function Pricing() {
           limits: {
             section_analyses_limit: -1,
             memo_generation_limit: -1,
-            case_search_daily_limit: -1,
-            api_calls_daily_limit: -1
+            case_search_limit: -1,
+            api_calls_limit: -1
           }
         }
       ]);
@@ -281,9 +281,9 @@ function Pricing() {
                 <td>Case Searches</td>
                 {plans.map((plan) => (
                   <td key={plan.tier}>
-                    {plan.limits.case_search_daily_limit === -1
+                    {plan.limits.case_search_limit === -1
                       ? '∞ Unlimited'
-                      : `${plan.limits.case_search_daily_limit}/day`}
+                      : `${plan.limits.case_search_limit}/day`}
                   </td>
                 ))}
               </tr>
@@ -291,11 +291,11 @@ function Pricing() {
                 <td>API Access</td>
                 {plans.map((plan) => (
                   <td key={plan.tier}>
-                    {plan.limits.api_calls_daily_limit === 0
-                      ? '❌'
-                      : plan.limits.api_calls_daily_limit === -1
+                    {plan.limits.api_calls_limit === 0
+                      ? '❌ No Access'
+                      : plan.limits.api_calls_limit === -1
                       ? '✓ Unlimited'
-                      : `${plan.limits.api_calls_daily_limit}/day`}
+                      : `✓ ${plan.limits.api_calls_limit}/day`}
                   </td>
                 ))}
               </tr>
