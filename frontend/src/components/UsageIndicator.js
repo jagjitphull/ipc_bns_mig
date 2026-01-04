@@ -46,27 +46,26 @@ function UsageIndicator({ actionType, showUpgradePrompt = true }) {
   const getUsageForAction = () => {
     if (!usageInfo) return null;
 
-    const { usage, limits } = usageInfo;
-
+    // Backend returns flat structure, not nested objects
     switch (actionType) {
       case 'section_analysis':
         return {
-          used: usage.section_analyses_used || 0,
-          limit: limits.section_analyses_limit,
+          used: usageInfo.section_analyses_used || 0,
+          limit: usageInfo.section_analyses_limit,
           label: 'Section Analyses',
           period: 'this month'
         };
       case 'memo_generation':
         return {
-          used: usage.memo_generation_used || 0,
-          limit: limits.memo_generation_limit,
+          used: usageInfo.memo_generation_used || 0,
+          limit: usageInfo.memo_generation_limit,
           label: 'Memos',
           period: 'this month'
         };
       case 'case_search':
         return {
-          used: usage.case_search_used || 0,
-          limit: limits.case_search_limit,
+          used: usageInfo.case_search_used || 0,
+          limit: usageInfo.case_search_limit,
           label: 'Case Searches',
           period: 'today'
         };
