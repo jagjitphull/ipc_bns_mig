@@ -41,19 +41,27 @@ function MemoGenerator() {
 
     const element = document.createElement('a');
     const file = new Blob([memo.memo], { type: 'text/plain' });
-    element.href = URL.createObjectURL(file);
+    const url = URL.createObjectURL(file);
+    element.href = url;
     element.download = `legal_memo_${new Date().toISOString().split('T')[0]}.txt`;
     document.body.appendChild(element);
     element.click();
     document.body.removeChild(element);
+    // Revoke the object URL to prevent memory leak
+    URL.revokeObjectURL(url);
   };
 
   const copyToClipboard = () => {
     if (!memo) return;
 
-    navigator.clipboard.writeText(memo.memo).then(() => {
-      alert('Memo copied to clipboard!');
-    });
+    navigator.clipboard.writeText(memo.memo)
+      .then(() => {
+        alert('Memo copied to clipboard!');
+      })
+      .catch((err) => {
+        console.error('Failed to copy to clipboard:', err);
+        alert('Failed to copy to clipboard. Please try again or copy manually.');
+      });
   };
 
   return (
