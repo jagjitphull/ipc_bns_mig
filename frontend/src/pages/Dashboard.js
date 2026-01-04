@@ -11,14 +11,12 @@ function Dashboard() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Show landing page for non-authenticated users
-  if (!isAuthenticated) {
-    return <LandingPage />;
-  }
-
+  // All hooks must be called before any conditional returns
   useEffect(() => {
-    loadStats();
-  }, []);
+    if (isAuthenticated) {
+      loadStats();
+    }
+  }, [isAuthenticated]);
 
   const loadStats = async () => {
     try {
@@ -51,6 +49,11 @@ function Dashboard() {
   const handleCasesClick = () => {
     navigate('/cases');
   };
+
+  // Show landing page for non-authenticated users
+  if (!isAuthenticated) {
+    return <LandingPage />;
+  }
 
   if (loading) {
     return <div className="loading">Loading statistics...</div>;
