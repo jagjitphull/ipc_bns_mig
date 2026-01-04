@@ -188,21 +188,22 @@ async def get_section(ipc_section: str, db: Session = Depends(get_db)):
 async def analyze_transition(
     request: SectionQuery,
     db: Session = Depends(get_db),
-    current_user: Optional[User] = Depends(lambda: None)  # Optional auth
+    current_user: User = Depends(get_current_user)  # Required auth
 ):
     """
     Analyze IPC to BNS transition for a section
 
-    Authentication: Optional (recommended for usage tracking and limits)
+    Authentication: REQUIRED
+    Usage: Counted against subscription limits
     """
-    # Try to get authenticated user if token is provided
-    try:
-        from fastapi import Request as FastAPIRequest
-        from auth_routes import get_current_user as _get_current_user
-        from fastapi.security import HTTPBearer
-        # This will be None if no auth header provided
-    except:
-        pass
+    # Check usage limits
+    from subscription_routes import check_usage_limit, increment_usage
+
+    if not check_usage_limit(current_user, 'section_analysis', db):
+        raise HTTPException(
+            status_code=429,
+            detail="Section analysis limit exceeded. Please upgrade your subscription."
+        )
 
     rag = app.state.rag
     agent = LegalReasoningAgent(db, rag)
@@ -212,22 +213,42 @@ async def analyze_transition(
     if "error" in analysis:
         raise HTTPException(status_code=404, detail=analysis["error"])
 
-    # Add usage info to response if user is authenticated
-    if current_user:
-        subscription = current_user.subscription
-        if subscription:
-            analysis["usage_info"] = {
-                "analyses_used": subscription.section_analyses_used,
-                "analyses_limit": subscription.section_analyses_limit,
-                "subscription_tier": subscription.tier.value
-            }
+    # Increment usage counter
+    increment_usage(current_user, 'section_analysis', db)
+
+    # Add usage info to response
+    subscription = current_user.subscription
+    if subscription:
+        analysis["usage_info"] = {
+            "analyses_used": subscription.section_analyses_used,
+            "analyses_limit": subscription.section_analyses_limit,
+            "subscription_tier": subscription.tier.value
+        }
 
     return analysis
 
 
 @app.post("/memo")
-async def generate_memo(request: MemoRequest, db: Session = Depends(get_db)):
-    """Generate comprehensive legal memorandum"""
+async def generate_memo(
+    request: MemoRequest,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)  # Required auth
+):
+    """
+    Generate comprehensive legal memorandum
+
+    Authentication: REQUIRED
+    Usage: Counted against subscription limits
+    """
+    # Check usage limits
+    from subscription_routes import check_usage_limit, increment_usage
+
+    if not check_usage_limit(current_user, 'memo_generation', db):
+        raise HTTPException(
+            status_code=429,
+            detail="Memo generation limit exceeded. Please upgrade your subscription."
+        )
+
     rag = app.state.rag
     agent = LegalReasoningAgent(db, rag)
 
@@ -235,6 +256,9 @@ async def generate_memo(request: MemoRequest, db: Session = Depends(get_db)):
         request.ipc_sections,
         request.query_context
     )
+
+    # Increment usage counter
+    increment_usage(current_user, 'memo_generation', db)
 
     # Save to history
     history = AnalysisHistory(
@@ -245,23 +269,66 @@ async def generate_memo(request: MemoRequest, db: Session = Depends(get_db)):
     db.add(history)
     db.commit()
 
-    return {
+    # Add usage info
+    subscription = current_user.subscription
+    response = {
         "memo": memo,
         "sections_analyzed": request.ipc_sections,
         "generated_at": history.created_at.isoformat()
     }
 
+    if subscription:
+        response["usage_info"] = {
+            "memos_used": subscription.memo_generation_used,
+            "memos_limit": subscription.memo_generation_limit,
+            "subscription_tier": subscription.tier.value
+        }
+
+    return response
+
 
 @app.post("/cases/search")
-async def search_cases(request: CaseSearchQuery):
-    """Search case law using semantic search"""
+async def search_cases(
+    request: CaseSearchQuery,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)  # Required auth
+):
+    """
+    Search case law using semantic search
+
+    Authentication: REQUIRED
+    Usage: Counted against daily case search limits
+    """
+    # Check usage limits
+    from subscription_routes import check_usage_limit, increment_usage
+
+    if not check_usage_limit(current_user, 'case_search', db):
+        raise HTTPException(
+            status_code=429,
+            detail="Daily case search limit exceeded. Please upgrade your subscription."
+        )
+
     rag = app.state.rag
     results = rag.search_cases(request.query, n_results=request.n_results)
 
-    return {
+    # Increment usage counter
+    increment_usage(current_user, 'case_search', db)
+
+    # Add usage info
+    subscription = current_user.subscription
+    response = {
         "query": request.query,
         "results": results
     }
+
+    if subscription:
+        response["usage_info"] = {
+            "searches_used": subscription.case_search_used,
+            "searches_limit": subscription.case_search_limit,
+            "subscription_tier": subscription.tier.value
+        }
+
+    return response
 
 
 @app.get("/cases")
