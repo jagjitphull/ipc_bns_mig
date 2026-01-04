@@ -85,9 +85,8 @@ function UserProfile() {
     return <div className="error-message">{error}</div>;
   }
 
-  const sub = subscriptionInfo?.subscription;
-  const limits = subscriptionInfo?.limits;
-  const usage = subscriptionInfo?.usage;
+  // Backend returns flat structure - all fields are directly on subscriptionInfo
+  const sub = subscriptionInfo;
 
   return (
     <div className="user-profile">
@@ -147,16 +146,26 @@ function UserProfile() {
 
         <div className="subscription-details">
           <div className="sub-tier-display">
-            <div className="tier-name">{sub?.tier?.toUpperCase() || 'FREE'} PLAN</div>
+            <div className="tier-name">
+              {sub?.tier?.toUpperCase() || 'FREE'}
+              {sub?.is_trial && ' (TRIAL)'}
+            </div>
             <div className="tier-price">
-              {sub?.tier === 'free' && '₹0/month'}
-              {sub?.tier === 'professional' && '₹2,999/month'}
-              {sub?.tier === 'enterprise' && '₹49,999/month'}
+              {sub?.is_trial && sub?.trial_days_remaining !== null && (
+                <span className="trial-days">🎁 {sub.trial_days_remaining} days remaining</span>
+              )}
+              {!sub?.is_trial && (
+                <>
+                  {sub?.tier === 'free' && '₹0/month'}
+                  {sub?.tier === 'professional' && '₹2,999/month'}
+                  {sub?.tier === 'enterprise' && '₹49,999/month'}
+                </>
+              )}
             </div>
           </div>
 
           <div className="sub-info-grid">
-            {sub?.status === 'trial' && sub?.trial_ends_at && (
+            {sub?.is_trial && sub?.trial_ends_at && (
               <div className="info-item trial-info">
                 <label>🎁 Trial Ends</label>
                 <span className="highlight">{formatDate(sub.trial_ends_at)}</span>
@@ -238,20 +247,20 @@ function UserProfile() {
             <div className="usage-header">
               <label>Section Analyses</label>
               <span className="usage-count">
-                {usage?.section_analyses_used || 0}
-                {limits?.section_analyses_limit === -1
+                {sub?.section_analyses_used || 0}
+                {sub?.section_analyses_limit === -1
                   ? ' / Unlimited'
-                  : ` / ${limits?.section_analyses_limit || 0}`}
+                  : ` / ${sub?.section_analyses_limit || 0}`}
               </span>
             </div>
-            {limits?.section_analyses_limit !== -1 && (
+            {sub?.section_analyses_limit !== -1 && (
               <div className="progress-bar">
                 <div
                   className="progress-fill"
                   style={{
                     width: `${calculatePercentage(
-                      usage?.section_analyses_used || 0,
-                      limits?.section_analyses_limit || 1
+                      sub?.section_analyses_used || 0,
+                      sub?.section_analyses_limit || 1
                     )}%`
                   }}
                 />
@@ -264,20 +273,20 @@ function UserProfile() {
             <div className="usage-header">
               <label>Memos Generated</label>
               <span className="usage-count">
-                {usage?.memo_generation_used || 0}
-                {limits?.memo_generation_limit === -1
+                {sub?.memo_generation_used || 0}
+                {sub?.memo_generation_limit === -1
                   ? ' / Unlimited'
-                  : ` / ${limits?.memo_generation_limit || 0}`}
+                  : ` / ${sub?.memo_generation_limit || 0}`}
               </span>
             </div>
-            {limits?.memo_generation_limit !== -1 && (
+            {sub?.memo_generation_limit !== -1 && (
               <div className="progress-bar">
                 <div
                   className="progress-fill"
                   style={{
                     width: `${calculatePercentage(
-                      usage?.memo_generation_used || 0,
-                      limits?.memo_generation_limit || 1
+                      sub?.memo_generation_used || 0,
+                      sub?.memo_generation_limit || 1
                     )}%`
                   }}
                 />
@@ -290,20 +299,20 @@ function UserProfile() {
             <div className="usage-header">
               <label>Case Searches (Today)</label>
               <span className="usage-count">
-                {usage?.case_search_used || 0}
-                {limits?.case_search_daily_limit === -1
+                {sub?.case_search_used || 0}
+                {sub?.case_search_limit === -1
                   ? ' / Unlimited'
-                  : ` / ${limits?.case_search_daily_limit || 0}`}
+                  : ` / ${sub?.case_search_limit || 0}`}
               </span>
             </div>
-            {limits?.case_search_daily_limit !== -1 && (
+            {sub?.case_search_limit !== -1 && (
               <div className="progress-bar">
                 <div
                   className="progress-fill"
                   style={{
                     width: `${calculatePercentage(
-                      usage?.case_search_used || 0,
-                      limits?.case_search_daily_limit || 1
+                      sub?.case_search_used || 0,
+                      sub?.case_search_limit || 1
                     )}%`
                   }}
                 />
@@ -317,20 +326,20 @@ function UserProfile() {
               <div className="usage-header">
                 <label>API Calls (Today)</label>
                 <span className="usage-count">
-                  {usage?.api_calls_used || 0}
-                  {limits?.api_calls_daily_limit === -1
+                  {sub?.api_calls_used || 0}
+                  {sub?.api_calls_limit === -1
                     ? ' / Unlimited'
-                    : ` / ${limits?.api_calls_daily_limit || 0}`}
+                    : ` / ${sub?.api_calls_limit || 0}`}
                 </span>
               </div>
-              {limits?.api_calls_daily_limit !== -1 && (
+              {sub?.api_calls_limit !== -1 && (
                 <div className="progress-bar">
                   <div
                     className="progress-fill"
                     style={{
                       width: `${calculatePercentage(
-                        usage?.api_calls_used || 0,
-                        limits?.api_calls_daily_limit || 1
+                        sub?.api_calls_used || 0,
+                        sub?.api_calls_limit || 1
                       )}%`
                     }}
                   />
@@ -370,27 +379,27 @@ function UserProfile() {
           <h3>✨ Your Plan Features</h3>
         </div>
         <div className="features-list">
-          {limits?.section_analyses_limit === -1 ? (
+          {sub?.section_analyses_limit === -1 ? (
             <div className="feature-item">✅ Unlimited Section Analyses</div>
           ) : (
             <div className="feature-item">
-              📊 {limits?.section_analyses_limit} Section Analyses/month
+              📊 {sub?.section_analyses_limit} Section Analyses/month
             </div>
           )}
 
-          {limits?.memo_generation_limit === -1 ? (
+          {sub?.memo_generation_limit === -1 ? (
             <div className="feature-item">✅ Unlimited Memo Generation</div>
           ) : (
             <div className="feature-item">
-              📝 {limits?.memo_generation_limit} Memos/month
+              📝 {sub?.memo_generation_limit} Memos/month
             </div>
           )}
 
-          {limits?.case_search_daily_limit === -1 ? (
+          {sub?.case_search_limit === -1 ? (
             <div className="feature-item">✅ Unlimited Case Search</div>
           ) : (
             <div className="feature-item">
-              🔍 {limits?.case_search_daily_limit} Case Searches/day
+              🔍 {sub?.case_search_limit} Case Searches/day
             </div>
           )}
 

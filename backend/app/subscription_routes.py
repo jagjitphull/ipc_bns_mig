@@ -26,6 +26,10 @@ class SubscriptionInfo(BaseModel):
     current_period_end: Optional[datetime]
     trial_ends_at: Optional[datetime]
 
+    # Trial information
+    is_trial: bool
+    trial_days_remaining: Optional[int]
+
     # Usage limits
     section_analyses_limit: int
     memo_generation_limit: int
@@ -62,6 +66,52 @@ class UpgradeRequest(BaseModel):
 
 
 # Helper functions
+def check_and_expire_trial(user: User, db: Session) -> bool:
+    """
+    Check if user's trial has expired and downgrade to FREE tier if needed
+
+    Args:
+        user: User object
+        db: Database session
+
+    Returns:
+        True if trial was expired and user downgraded, False otherwise
+    """
+    subscription = user.subscription
+
+    if not subscription:
+        return False
+
+    # Only check trials
+    if subscription.status != SubscriptionStatus.TRIAL:
+        return False
+
+    # Check if trial has ended
+    if subscription.trial_ends_at and datetime.utcnow() > subscription.trial_ends_at:
+        # Downgrade to FREE tier
+        subscription.tier = SubscriptionTier.FREE
+        subscription.status = SubscriptionStatus.ACTIVE
+
+        # Reset to FREE tier limits
+        free_limits = get_subscription_limits(SubscriptionTier.FREE)
+        subscription.section_analyses_limit = free_limits['section_analyses_limit']
+        subscription.memo_generation_limit = free_limits['memo_generation_limit']
+        subscription.case_search_limit = free_limits['case_search_limit']
+        subscription.api_calls_limit = free_limits['api_calls_limit']
+
+        # Reset usage counters
+        subscription.section_analyses_used = 0
+        subscription.memo_generation_used = 0
+        subscription.case_search_used = 0
+        subscription.api_calls_used = 0
+        subscription.last_reset_date = datetime.utcnow()
+
+        db.commit()
+        return True
+
+    return False
+
+
 def check_usage_limit(user: User, action_type: str, db: Session) -> bool:
     """
     Check if user has exceeded usage limits
@@ -142,12 +192,22 @@ async def get_subscription_info(current_user: User = Depends(get_current_user)):
             detail="No subscription found"
         )
 
+    # Calculate trial information
+    is_trial = subscription.status == SubscriptionStatus.TRIAL
+    trial_days_remaining = None
+
+    if is_trial and subscription.trial_ends_at:
+        delta = subscription.trial_ends_at - datetime.utcnow()
+        trial_days_remaining = max(0, delta.days)
+
     return SubscriptionInfo(
         tier=subscription.tier.value,
         status=subscription.status.value,
         current_period_start=subscription.current_period_start,
         current_period_end=subscription.current_period_end,
         trial_ends_at=subscription.trial_ends_at,
+        is_trial=is_trial,
+        trial_days_remaining=trial_days_remaining,
         section_analyses_limit=subscription.section_analyses_limit,
         memo_generation_limit=subscription.memo_generation_limit,
         case_search_limit=subscription.case_search_limit,

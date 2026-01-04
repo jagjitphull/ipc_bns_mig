@@ -119,6 +119,10 @@ async def get_current_user(
             detail="User account is inactive",
         )
 
+    # Check and expire trial if needed
+    from subscription_routes import check_and_expire_trial
+    check_and_expire_trial(user, db)
+
     return user
 
 

@@ -42,8 +42,9 @@ function Navbar() {
               <Link to="/profile" className="nav-link">
                 👤 {user?.full_name || user?.email}
               </Link>
-              <span className="subscription-badge">
+              <span className="subscription-badge" title={user?.subscription_status === 'trial' ? 'Trial expires soon - check profile for details' : ''}>
                 {user?.subscription_tier?.toUpperCase() || 'FREE'}
+                {user?.subscription_status === 'trial' && ' (TRIAL)'}
               </span>
               <button onClick={handleLogout} className="btn-logout">
                 Logout
