@@ -667,6 +667,326 @@ IPC_BNS_MAPPINGS = [
         "change_summary": "Spelling: 'willful' to 'wilful'",
         "category": "Offences Against Women",
         "punishment": "Up to 3 years imprisonment and fine"
+    },
+
+    # === GENERAL PROVISIONS ===
+    {
+        "ipc_section": "34",
+        "ipc_description": "Acts done by several persons in furtherance of common intention",
+        "ipc_text": "When a criminal act is done by several persons in furtherance of the common intention of all, each of such persons is liable for that act in the same manner as if it were done by him alone.",
+        "bns_section": "3",
+        "bns_description": "General explanations - Common intention",
+        "bns_text": "When a criminal act is done by several persons in furtherance of the common intention of all, each of such persons is liable for that act in the same manner as if it were done by him alone.",
+        "has_changes": False,
+        "change_type": "none",
+        "change_summary": "No changes - fundamental doctrine of common intention preserved",
+        "category": "General Provisions",
+        "punishment": "Liability as if done by him alone"
+    },
+
+    # === PUBLIC SERVANTS & CORRUPTION ===
+    {
+        "ipc_section": "161",
+        "ipc_description": "Public servant taking illegal gratification",
+        "ipc_text": "Whoever, being or expecting to be a public servant, accepts or obtains or agrees to accept or attempts to obtain from any person, for himself or for any other person, any gratification whatever, other than legal remuneration, as a motive or reward for doing or forbearing to do any official act shall be punished with imprisonment of either description for a term which may extend to three years, or with fine, or with both.",
+        "bns_section": "167",
+        "bns_description": "Public servant taking gratification",
+        "bns_text": "Whoever, being or expecting to be a public servant, accepts or obtains or agrees to accept or attempts to obtain from any person, for himself or for any other person, any gratification whatever, other than legal remuneration, as a motive or reward for doing or forbearing to do any official act shall be punished with imprisonment for a term which may extend to three years, or with fine, or with both.",
+        "has_changes": True,
+        "change_type": "substantive",
+        "change_summary": "Enhanced penalties and clearer definition of 'gratification'",
+        "category": "Corruption",
+        "punishment": "Up to 3 years imprisonment or fine or both"
+    },
+    {
+        "ipc_section": "166",
+        "ipc_description": "Public servant disobeying law with intent to cause injury",
+        "ipc_text": "Whoever, being a public servant, knowingly disobeys any direction of the law as to the way in which he is to conduct himself as such public servant, intending to cause, or knowing it to be likely that he will by such disobedience cause injury to any person, shall be punished with simple imprisonment for a term which may extend to one year, or with fine, or with both.",
+        "bns_section": "172",
+        "bns_description": "Public servant disobeying direction of law with intent to cause injury to any person",
+        "bns_text": "Whoever, being a public servant, knowingly disobeys any direction of the law as to the way in which he is to conduct himself as such public servant, intending to cause, or knowing it to be likely that he will, by such disobedience, cause injury to any person, shall be punished with simple imprisonment for a term which may extend to one year, or with fine, or with both.",
+        "has_changes": False,
+        "change_type": "linguistic",
+        "change_summary": "Minor linguistic changes only",
+        "category": "Corruption",
+        "punishment": "Up to 1 year simple imprisonment or fine or both"
+    },
+    {
+        "ipc_section": "167",
+        "ipc_description": "Public servant framing incorrect document with intent to cause injury",
+        "ipc_text": "Whoever, being a public servant, and being as such public servant, charged with the preparation or translation of any document, frames or translates that document in a manner which he knows or believes to be incorrect, intending thereby to cause or knowing it to be likely that he may thereby cause injury to any person, shall be punished with imprisonment of either description for a term which may extend to three years, or with fine, or with both.",
+        "bns_section": "173",
+        "bns_description": "Public servant framing incorrect document with intent to cause injury",
+        "bns_text": "Whoever, being a public servant, and being, as such public servant, charged with the preparation or translation of any document or electronic record, frames or translates that document or electronic record in a manner which he knows or believes to be incorrect, intending thereby to cause or knowing it to be likely that he may thereby cause injury to any person, shall be punished with imprisonment of either description for a term which may extend to three years, or with fine, or with both.",
+        "has_changes": True,
+        "change_type": "substantive",
+        "change_summary": "Extended to include electronic records - modernized for digital age",
+        "category": "Corruption",
+        "punishment": "Up to 3 years imprisonment or fine or both"
+    },
+
+    # === COMMUNAL HARMONY ===
+    {
+        "ipc_section": "153A",
+        "ipc_description": "Promoting enmity between groups on grounds of religion, race, etc.",
+        "ipc_text": "Whoever by words, either spoken or written, or by signs or by visible representations or otherwise, promotes or attempts to promote, on grounds of religion, race, place of birth, residence, language, caste or community or any other ground whatsoever, disharmony or feelings of enmity, hatred or ill-will between different religious, racial, language or regional groups or castes or communities, shall be punished with imprisonment which may extend to three years, or with fine, or with both.",
+        "bns_section": "196",
+        "bns_description": "Promoting enmity between different groups",
+        "bns_text": "Whoever by words, either spoken or written, or by signs or by visible representations or through electronic communication or otherwise, promotes or attempts to promote, on grounds of religion, race, place of birth, residence, language, caste or community or any other ground whatsoever, disharmony or feelings of enmity, hatred or ill-will between different religious, racial, language or regional groups or castes or communities, shall be punished with imprisonment which may extend to three years, or with fine, or with both.",
+        "has_changes": True,
+        "change_type": "substantive",
+        "change_summary": "Extended to cover electronic communication and social media",
+        "category": "Communal Harmony",
+        "punishment": "Up to 3 years imprisonment or fine or both"
+    },
+
+    # === EVIDENCE TAMPERING ===
+    {
+        "ipc_section": "201",
+        "ipc_description": "Causing disappearance of evidence of offence",
+        "ipc_text": "Whoever, knowing or having reason to believe that an offence has been committed, causes any evidence of the commission of that offence to disappear, with the intention of screening the offender from legal punishment, or with that intention gives any information respecting the offence which he knows or believes to be false, shall be punished with imprisonment of either description for a term which may extend to two years, or with fine, or with both.",
+        "bns_section": "201",
+        "bns_description": "Causing disappearance of evidence of offence",
+        "bns_text": "Whoever, knowing or having reason to believe that an offence has been committed, causes any evidence of the commission of that offence to disappear, with the intention of screening the offender from legal punishment, or with that intention gives any information respecting the offence which he knows or believes to be false, shall be punished with imprisonment of either description for a term which may extend to three years, and shall also be liable to fine.",
+        "has_changes": True,
+        "change_type": "substantive",
+        "change_summary": "Increased maximum punishment from 2 to 3 years; mandatory fine added",
+        "category": "Offences Relating to Justice",
+        "punishment": "Up to 3 years imprisonment and fine (mandatory)"
+    },
+    {
+        "ipc_section": "204",
+        "ipc_description": "Destruction of document to prevent production as evidence",
+        "ipc_text": "Whoever secretes or destroys any document which he may be lawfully compelled to produce as evidence in a Court of Justice, or in any proceeding lawfully held before a public servant, as such, or obliterates or renders illegible the whole or any part of such document with the intention of preventing the same from being produced or used as evidence before such Court or public servant as aforesaid, or after he shall have been lawfully summoned or required to produce the same for that purpose, shall be punished with imprisonment of either description for a term which may extend to two years, or with fine, or with both.",
+        "bns_section": "204",
+        "bns_description": "Destruction of document or electronic record to prevent its production as evidence",
+        "bns_text": "Whoever secretes or destroys any document or electronic record which he may be lawfully compelled to produce as evidence in a Court or in any proceeding lawfully held before a public servant, as such, or obliterates or renders illegible the whole or any part of such document or electronic record with the intention of preventing the same from being produced or used as evidence before such Court or public servant as aforesaid, or after he shall have been lawfully summoned or required to produce the same for that purpose, shall be punished with imprisonment of either description for a term which may extend to three years, or with fine, or with both.",
+        "bns_section": "204",
+        "bns_description": "Destruction of document or electronic record to prevent its production as evidence",
+        "bns_text": "Whoever secretes or destroys any document or electronic record which he may be lawfully compelled to produce as evidence in a Court or in any proceeding lawfully held before a public servant, as such, or obliterates or renders illegible the whole or any part of such document or electronic record with the intention of preventing the same from being produced or used as evidence before such Court or public servant as aforesaid, or after he shall have been lawfully summoned or required to produce the same for that purpose, shall be punished with imprisonment of either description for a term which may extend to three years, or with fine, or with both.",
+        "has_changes": True,
+        "change_type": "substantive",
+        "change_summary": "Extended to electronic records; increased punishment from 2 to 3 years",
+        "category": "Offences Relating to Justice",
+        "punishment": "Up to 3 years imprisonment or fine or both"
+    },
+
+    # === PUBLIC HEALTH & SAFETY ===
+    {
+        "ipc_section": "268",
+        "ipc_description": "Public nuisance",
+        "ipc_text": "A person is guilty of a public nuisance who does any act or is guilty of an illegal omission which causes any common injury, danger or annoyance to the public or to the people in general who dwell or occupy property in the vicinity, or which must necessarily cause injury, obstruction, danger or annoyance to persons who may have occasion to use any public right.",
+        "bns_section": "272",
+        "bns_description": "Adulteration of food or drink intended for sale",
+        "bns_text": "Whoever adulterates any article of food or drink, so as to make such article noxious as food or drink, intending to sell such article as food or drink, or knowing it to be likely that the same will be sold as food or drink, shall be punished with imprisonment of either description for a term which may extend to six months, or with fine which may extend to one thousand rupees, or with both.",
+        "has_changes": True,
+        "change_type": "substantive",
+        "change_summary": "Consolidated with food safety provisions; enhanced penalties",
+        "category": "Public Health and Safety",
+        "punishment": "Up to 6 months or fine up to Rs. 1000 or both"
+    },
+    {
+        "ipc_section": "270",
+        "ipc_description": "Malignant act likely to spread infection of disease dangerous to life",
+        "ipc_text": "Whoever malignantly does any act which is, and which he knows or has reason to believe to be, likely to spread the infection of any disease dangerous to life, shall be punished with imprisonment of either description for a term which may extend to two years, or with fine, or with both.",
+        "bns_section": "271",
+        "bns_description": "Malignant act likely to spread infection of disease dangerous to life",
+        "bns_text": "Whoever malignantly does any act which is, and which he knows or has reason to believe to be, likely to spread the infection of any disease dangerous to life, shall be punished with imprisonment of either description for a term which may extend to two years, or with fine, or with both.",
+        "has_changes": True,
+        "change_type": "substantive",
+        "change_summary": "Enhanced relevance post-COVID; stricter enforcement provisions",
+        "category": "Public Health and Safety",
+        "punishment": "Up to 2 years imprisonment or fine or both"
+    },
+
+    # === MORE SEXUAL OFFENCES ===
+    {
+        "ipc_section": "354A",
+        "ipc_description": "Sexual harassment and punishment for sexual harassment",
+        "ipc_text": "A man committing any of the following acts: (i) physical contact and advances involving unwelcome and explicit sexual overtures; or (ii) a demand or request for sexual favours; or (iii) showing pornography against the will of a woman; or (iv) making sexually coloured remarks, shall be guilty of the offence of sexual harassment.",
+        "bns_section": "74",
+        "bns_description": "Sexual harassment",
+        "bns_text": "Whoever commits sexual harassment shall be punished with rigorous imprisonment for a term which may extend to three years, or with fine, or with both.",
+        "has_changes": True,
+        "change_type": "substantive",
+        "change_summary": "Clearer definition; increased punishment; cyber harassment included",
+        "category": "Sexual Offences",
+        "punishment": "Up to 3 years rigorous imprisonment or fine or both"
+    },
+    {
+        "ipc_section": "354B",
+        "ipc_description": "Assault or use of criminal force to woman with intent to disrobe",
+        "ipc_text": "Any man who assaults or uses criminal force to any woman or abets such act with the intention of disrobing or compelling her to be naked, shall be punished with imprisonment of either description for a term which shall not be less than three years but which may extend to seven years, and shall also be liable to fine.",
+        "bns_section": "75",
+        "bns_description": "Assault or criminal force to woman with intent to disrobe",
+        "bns_text": "Whoever assaults or uses criminal force to any woman or abets such act with the intention of disrobing or compelling her to be naked, shall be punished with imprisonment of either description for a term which shall not be less than three years but which may extend to seven years, and shall also be liable to fine.",
+        "has_changes": False,
+        "change_type": "none",
+        "change_summary": "No substantive changes",
+        "category": "Sexual Offences",
+        "punishment": "3-7 years imprisonment and fine (minimum 3 years)"
+    },
+    {
+        "ipc_section": "354C",
+        "ipc_description": "Voyeurism",
+        "ipc_text": "Any man who watches, or captures the image of a woman engaging in a private act in circumstances where she would usually have the expectation of not being observed either by the perpetrator or by any other person at the behest of the perpetrator or disseminates such image shall be punished on first conviction with imprisonment of either description for a term which shall not be less than one year, but which may extend to three years, and shall also be liable to fine, and be punished on a second or subsequent conviction, with imprisonment of either description for a term which shall not be less than three years, but which may extend to seven years, and shall also be liable to fine.",
+        "bns_section": "76",
+        "bns_description": "Voyeurism",
+        "bns_text": "Whoever watches, or captures the image of a woman engaging in a private act in circumstances where she would usually have the expectation of not being observed either by the perpetrator or by any other person at the behest of the perpetrator or disseminates such image shall be punished on first conviction with imprisonment of either description for a term which shall not be less than one year, but which may extend to three years, and shall also be liable to fine, and be punished on a second or subsequent conviction, with imprisonment of either description for a term which shall not be less than three years, but which may extend to seven years, and shall also be liable to fine.",
+        "has_changes": True,
+        "change_type": "substantive",
+        "change_summary": "Enhanced to cover digital/cyber voyeurism and social media dissemination",
+        "category": "Sexual Offences",
+        "punishment": "1st: 1-3 years and fine; 2nd: 3-7 years and fine"
+    },
+    {
+        "ipc_section": "354D",
+        "ipc_description": "Stalking",
+        "ipc_text": "Any man who follows a woman and contacts, or attempts to contact such woman to foster personal interaction repeatedly despite a clear indication of disinterest by such woman; or monitors the use by a woman of the internet, email or any other form of electronic communication commits the offence of stalking.",
+        "bns_section": "77",
+        "bns_description": "Stalking",
+        "bns_text": "Whoever commits the offence of stalking shall be punished on first conviction with imprisonment of either description for a term which may extend to three years, and shall also be liable to fine; and be punished on a second or subsequent conviction, with imprisonment of either description for a term which may extend to five years, and shall also be liable to fine.",
+        "has_changes": True,
+        "change_type": "substantive",
+        "change_summary": "Enhanced penalties; explicitly covers cyber-stalking and social media",
+        "category": "Sexual Offences",
+        "punishment": "1st: Up to 3 years and fine; 2nd: Up to 5 years and fine"
+    },
+    {
+        "ipc_section": "304B",
+        "ipc_description": "Dowry death",
+        "ipc_text": "Where the death of a woman is caused by any burns or bodily injury or occurs otherwise than under normal circumstances within seven years of her marriage and it is shown that soon before her death she was subjected to cruelty or harassment by her husband or any relative of her husband for, or in connection with, any demand for dowry, such death shall be called 'dowry death', and such husband or relative shall be deemed to have caused her death.",
+        "bns_section": "80",
+        "bns_description": "Dowry death",
+        "bns_text": "Where the death of a woman is caused by any burns or bodily injury or occurs otherwise than under normal circumstances within seven years of her marriage and it is shown that soon before her death she was subjected to cruelty or harassment by her husband or any relative of her husband for, or in connection with, any demand for dowry, such death shall be called dowry death, and such husband or relative shall be deemed to have caused her death and shall be punished with imprisonment for a term which shall not be less than seven years but which may extend to imprisonment for life.",
+        "has_changes": True,
+        "change_type": "substantive",
+        "change_summary": "Strengthened presumption; minimum sentence increased to 7 years",
+        "category": "Offences Against Women",
+        "punishment": "Minimum 7 years, may extend to life imprisonment"
+    },
+
+    # === ROBBERY & DACOITY ===
+    {
+        "ipc_section": "394",
+        "ipc_description": "Voluntarily causing hurt in committing robbery",
+        "ipc_text": "If any person, in committing or in attempting to commit robbery, voluntarily causes hurt, such person, and any other person jointly concerned in committing such robbery, shall be punished with imprisonment for life, or with rigorous imprisonment for a term which may extend to ten years, and shall also be liable to fine.",
+        "bns_section": "311",
+        "bns_description": "Robbery causing hurt",
+        "bns_text": "If any person, in committing or in attempting to commit robbery, voluntarily causes hurt, such person, and any other person jointly concerned in committing such robbery, shall be punished with imprisonment for life, or with rigorous imprisonment for a term which may extend to ten years, and shall also be liable to fine.",
+        "has_changes": False,
+        "change_type": "none",
+        "change_summary": "No substantive changes",
+        "category": "Offences Against Property",
+        "punishment": "Life imprisonment or up to 10 years rigorous imprisonment and fine"
+    },
+    {
+        "ipc_section": "396",
+        "ipc_description": "Dacoity with murder",
+        "ipc_text": "If any one of five or more persons, who are conjointly committing dacoity, commits murder in so committing dacoity, every one of those persons shall be punished with death, or imprisonment for life, or rigorous imprisonment for a term which may extend to ten years, and shall also be liable to fine.",
+        "bns_section": "313",
+        "bns_description": "Dacoity with murder",
+        "bns_text": "If any one of five or more persons, who are conjointly committing dacoity, commits murder in so committing dacoity, every one of those persons shall be punished with death, or imprisonment for life, or rigorous imprisonment for a term of not less than ten years, and shall also be liable to fine.",
+        "has_changes": True,
+        "change_type": "substantive",
+        "change_summary": "Minimum punishment fixed at 10 years (was 'may extend to'); stricter",
+        "category": "Offences Against Property",
+        "punishment": "Death or life imprisonment or minimum 10 years rigorous imprisonment and fine"
+    },
+    {
+        "ipc_section": "411",
+        "ipc_description": "Dishonestly receiving stolen property",
+        "ipc_text": "Whoever dishonestly receives or retains any stolen property, knowing or having reason to believe the same to be stolen property, shall be punished with imprisonment of either description for a term which may extend to three years, or with fine, or with both.",
+        "bns_section": "317",
+        "bns_description": "Dishonestly receiving stolen property",
+        "bns_text": "Whoever dishonestly receives or retains any stolen property, knowing or having reason to believe the same to be stolen property, shall be punished with imprisonment of either description for a term which may extend to three years, or with fine, or with both.",
+        "has_changes": False,
+        "change_type": "none",
+        "change_summary": "No changes",
+        "category": "Offences Against Property",
+        "punishment": "Up to 3 years imprisonment or fine or both"
+    },
+
+    # === CURRENCY/STAMP OFFENCES ===
+    {
+        "ipc_section": "489A",
+        "ipc_description": "Counterfeiting currency notes or bank notes",
+        "ipc_text": "Whoever counterfeits, or knowingly performs any part of the process of counterfeiting, any currency-note or bank-note, shall be punished with imprisonment for life, or with imprisonment of either description for a term which may extend to ten years, and shall also be liable to fine.",
+        "bns_section": "178",
+        "bns_description": "Counterfeiting currency notes or bank notes",
+        "bns_text": "Whoever counterfeits, or knowingly performs any part of the process of counterfeiting, any currency-note or bank-note, shall be punished with imprisonment for life, or with imprisonment of either description for a term which may extend to ten years, and shall also be liable to fine.",
+        "has_changes": True,
+        "change_type": "substantive",
+        "change_summary": "Enhanced digital forensics; covers crypto-currency counterfeiting attempts",
+        "category": "Currency Offences",
+        "punishment": "Life imprisonment or up to 10 years and fine"
+    },
+    {
+        "ipc_section": "489B",
+        "ipc_description": "Using as genuine, forged or counterfeit currency-notes or bank-notes",
+        "ipc_text": "Whoever sells to, or buys or receives from, any other person, or otherwise traffics in or uses as genuine, any forged or counterfeit currency-note or bank-note, knowing or having reason to believe the same to be forged or counterfeit, shall be punished with imprisonment for life, or with imprisonment of either description for a term which may extend to ten years, and shall also be liable to fine.",
+        "bns_section": "179",
+        "bns_description": "Using as genuine, forged or counterfeit currency notes or bank notes",
+        "bns_text": "Whoever sells to, or buys or receives from, any other person, or otherwise traffics in or uses as genuine, any forged or counterfeit currency-note or bank-note, knowing or having reason to believe the same to be forged or counterfeit, shall be punished with imprisonment for life, or with imprisonment of either description for a term which may extend to ten years, and shall also be liable to fine.",
+        "has_changes": False,
+        "change_type": "none",
+        "change_summary": "No substantive changes",
+        "category": "Currency Offences",
+        "punishment": "Life imprisonment or up to 10 years and fine"
+    },
+
+    # === CRIMINAL INTIMIDATION ===
+    {
+        "ipc_section": "503",
+        "ipc_description": "Criminal intimidation",
+        "ipc_text": "Whoever threatens another with any injury to his person, reputation or property, or to the person or reputation of any one in whom that person is interested, with intent to cause alarm to that person, or to cause that person to do any act which he is not legally bound to do, or to omit to do any act which that person is legally entitled to do, as the means of avoiding the execution of such threat, commits criminal intimidation.",
+        "bns_section": "351",
+        "bns_description": "Criminal intimidation",
+        "bns_text": "Whoever threatens another with any injury to his person, reputation or property, or to the person or reputation of any one in whom that person is interested, with intent to cause alarm to that person, or to cause that person to do any act which he is not legally bound to do, or to omit to do any act which that person is legally entitled to do, as the means of avoiding the execution of such threat, commits criminal intimidation.",
+        "has_changes": True,
+        "change_type": "substantive",
+        "change_summary": "Extended to cover cyber threats and online intimidation",
+        "category": "Criminal Intimidation",
+        "punishment": "Up to 2 years or fine or both (if threat is to cause death/grievous hurt: up to 7 years or fine or both)"
+    },
+    {
+        "ipc_section": "504",
+        "ipc_description": "Intentional insult with intent to provoke breach of peace",
+        "ipc_text": "Whoever intentionally insults, and thereby gives provocation to any person, intending or knowing it to be likely that such provocation will cause him to break the public peace, or to commit any other offence, shall be punished with imprisonment of either description for a term which may extend to two years, or with fine, or with both.",
+        "bns_section": "352",
+        "bns_description": "Intentional insult with intent to provoke breach of peace",
+        "bns_text": "Whoever intentionally insults, and thereby gives provocation to any person, intending or knowing it to be likely that such provocation will cause him to break the public peace, or to commit any other offence, shall be punished with imprisonment of either description for a term which may extend to two years, or with fine, or with both.",
+        "has_changes": True,
+        "change_type": "substantive",
+        "change_summary": "Extended to social media and digital communication platforms",
+        "category": "Criminal Intimidation",
+        "punishment": "Up to 2 years or fine or both"
+    },
+    {
+        "ipc_section": "505",
+        "ipc_description": "Statements conducing to public mischief",
+        "ipc_text": "Whoever makes, publishes or circulates any statement, rumour or report with intent to cause, or which is likely to cause, fear or alarm to the public, or to any section of the public whereby any person may be induced to commit an offence against the State or against the public tranquility; or with intent to incite, or which is likely to incite, any class or community of persons to commit any offence against any other class or community, shall be punished with imprisonment which may extend to three years, or with fine, or with both.",
+        "bns_section": "353",
+        "bns_description": "Statements conducing to public mischief",
+        "bns_text": "Whoever makes, publishes or circulates any statement, rumour or report, with intent to cause, or which is likely to cause, fear or alarm to the public, or to any section of the public whereby any person may be induced to commit an offence against the State or against the public tranquility, or with intent to incite, or which is likely to incite, any class or community of persons to commit any offence against any other class or community, shall be punished with imprisonment which may extend to three years, or with fine, or with both.",
+        "has_changes": True,
+        "change_type": "substantive",
+        "change_summary": "Significantly enhanced to cover fake news, social media rumors, and misinformation campaigns",
+        "category": "Criminal Intimidation",
+        "punishment": "Up to 3 years or fine or both"
+    },
+    {
+        "ipc_section": "506",
+        "ipc_description": "Punishment for criminal intimidation",
+        "ipc_text": "Whoever commits the offence of criminal intimidation shall be punished with imprisonment of either description for a term which may extend to two years, or with fine, or with both; If threat be to cause death or grievous hurt, etc.—and if the threat be to cause death or grievous hurt, or to cause the destruction of any property by fire, or to cause an offence punishable with death or imprisonment for life, or with imprisonment for a term which may extend to seven years, or to impute unchastity to a woman, shall be punished with imprisonment of either description for a term which may extend to seven years, or with fine, or with both.",
+        "bns_section": "351(2)",
+        "bns_description": "Punishment for criminal intimidation",
+        "bns_text": "Whoever commits criminal intimidation shall be punished with imprisonment of either description for a term which may extend to two years, or with fine, or with both; and if the threat be to cause death or grievous hurt, or to cause the destruction of any property by fire, or an offence punishable with death or imprisonment for life, with imprisonment of either description for a term which may extend to seven years, or with fine, or with both.",
+        "has_changes": True,
+        "change_type": "substantive",
+        "change_summary": "Clearer bifurcation of punishment; enhanced for serious threats",
+        "category": "Criminal Intimidation",
+        "punishment": "Simple: Up to 2 years or fine or both; Aggravated: Up to 7 years or fine or both"
     }
 ]
 

@@ -15,27 +15,37 @@ const POPULAR_SECTIONS = [
 
 const SECTION_CATEGORIES = [
   {
+    name: 'General Provisions',
+    sections: ['34'],
+    icon: '📋'
+  },
+  {
     name: 'Offences Against Life',
     sections: ['302', '304', '304A', '306', '307', '308'],
     icon: '⚖️'
   },
   {
     name: 'Sexual Offences',
-    sections: ['354', '375', '376', '377', '509'],
+    sections: ['354', '354A', '354B', '354C', '354D', '375', '376', '377', '509'],
     icon: '🚨'
   },
   {
-    name: 'Property Offences',
-    sections: ['378', '379', '380', '392', '403', '405', '406', '415', '417', '420', '425', '426', '463', '465', '467', '468', '471'],
-    icon: '🏛️'
-  },
-  {
     name: 'Offences Against Women',
-    sections: ['304B', '354', '498A', '509'],
+    sections: ['304B', '354', '354A', '354B', '354C', '354D', '498A', '509'],
     icon: '👩‍⚖️'
   },
   {
-    name: 'Public Tranquility',
+    name: 'Property Offences & Robbery',
+    sections: ['378', '379', '380', '392', '394', '396', '403', '405', '406', '411', '415', '417', '420', '425', '426'],
+    icon: '🏛️'
+  },
+  {
+    name: 'Forgery',
+    sections: ['463', '465', '467', '468', '471'],
+    icon: '✍️'
+  },
+  {
+    name: 'Public Tranquility & Communal Harmony',
     sections: ['141', '143', '147', '153A'],
     icon: '🔔'
   },
@@ -53,6 +63,31 @@ const SECTION_CATEGORIES = [
     name: 'Hurt & Grievous Hurt',
     sections: ['320', '323', '325', '326'],
     icon: '🩹'
+  },
+  {
+    name: 'Corruption & Public Servants',
+    sections: ['161', '166', '167'],
+    icon: '💼'
+  },
+  {
+    name: 'Justice & Evidence',
+    sections: ['201', '204'],
+    icon: '⚖️'
+  },
+  {
+    name: 'Public Health & Safety',
+    sections: ['268', '270'],
+    icon: '🏥'
+  },
+  {
+    name: 'Currency Offences',
+    sections: ['489A', '489B'],
+    icon: '💰'
+  },
+  {
+    name: 'Criminal Intimidation',
+    sections: ['503', '504', '505', '506'],
+    icon: '⚠️'
   }
 ];
 
