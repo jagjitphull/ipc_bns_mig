@@ -48,6 +48,42 @@ function MemoGenerator() {
     document.body.removeChild(element);
   };
 
+  const downloadMemoPDF = async () => {
+    if (!memo || !sections) return;
+
+    try {
+      setLoading(true);
+
+      // Parse sections
+      const sectionList = sections
+        .split(/[,\s]+/)
+        .map(s => s.trim())
+        .filter(s => s);
+
+      // Call PDF endpoint
+      const response = await apiService.generateMemoPDF(sectionList, context);
+
+      // Create blob from response
+      const blob = new Blob([response.data], { type: 'application/pdf' });
+      const url = window.URL.createObjectURL(blob);
+
+      // Download
+      const element = document.createElement('a');
+      element.href = url;
+      element.download = `Legal_Memo_${sectionList[0]}_${new Date().toISOString().split('T')[0]}.pdf`;
+      document.body.appendChild(element);
+      element.click();
+      document.body.removeChild(element);
+
+      // Cleanup
+      window.URL.revokeObjectURL(url);
+    } catch (err) {
+      setError(err.response?.data?.detail || 'Failed to generate PDF');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const copyToClipboard = () => {
     if (!memo) return;
 
@@ -112,7 +148,10 @@ function MemoGenerator() {
                 📋 Copy
               </button>
               <button onClick={downloadMemo} className="btn-secondary">
-                💾 Download
+                📄 Download TXT
+              </button>
+              <button onClick={downloadMemoPDF} className="btn-primary" disabled={loading}>
+                📑 Download PDF
               </button>
             </div>
           </div>

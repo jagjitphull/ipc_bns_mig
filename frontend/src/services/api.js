@@ -80,6 +80,8 @@ export const apiService = {
   // Memo generation
   generateMemo: (ipcSections, context = '') =>
     api.post('/memo', { ipc_sections: ipcSections, query_context: context }),
+  generateMemoPDF: (ipcSections, context = '') =>
+    api.post('/memo/pdf', { ipc_sections: ipcSections, query_context: context }, { responseType: 'blob' }),
 
   // Case search
   searchCases: (query, nResults = 5) =>

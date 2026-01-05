@@ -431,3 +431,70 @@ async def get_categories(db: Session = Depends(get_db)):
 
 if __name__ == "__main__":
     uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
+
+@app.post("/memo/pdf")
+async def generate_memo_pdf_endpoint(
+    request: MemoRequest,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
+):
+    """
+    Generate legal memorandum as PDF
+
+    Authentication: REQUIRED
+    Usage: Counted against subscription limits
+    Returns: PDF file for download
+    """
+    from fastapi.responses import StreamingResponse
+    from pdf_utils import generate_memo_pdf
+    from subscription_routes import check_usage_limit, increment_usage
+
+    # Check usage limits
+    if not check_usage_limit(current_user, 'memo_generation', db):
+        raise HTTPException(
+            status_code=429,
+            detail="Memo generation limit exceeded. Please upgrade your subscription."
+        )
+
+    # Generate memo content
+    rag = app.state.rag
+    agent = LegalReasoningAgent(db, rag)
+
+    memo_text = agent.generate_legal_memo(
+        request.ipc_sections,
+        request.query_context
+    )
+
+    # Prepare case info
+    case_info = {
+        'to': 'Client',
+        'from': current_user.full_name,
+        'subject': f'IPC to BNS Analysis - Sections {", ".join(request.ipc_sections)}'
+    }
+
+    # Generate PDF
+    pdf_buffer = generate_memo_pdf(memo_text, case_info)
+
+    # Increment usage counter
+    increment_usage(current_user, 'memo_generation', db)
+
+    # Save to history
+    history = AnalysisHistory(
+        query=request.query_context,
+        ipc_sections=str(request.ipc_sections),
+        memo_generated=memo_text
+    )
+    db.add(history)
+    db.commit()
+
+    # Return PDF file
+    filename = f"Legal_Memo_{request.ipc_sections[0] if request.ipc_sections else 'Document'}.pdf"
+
+    return StreamingResponse(
+        pdf_buffer,
+        media_type="application/pdf",
+        headers={
+            "Content-Disposition": f"attachment; filename={filename}",
+            "Content-Type": "application/pdf"
+        }
+    )
