@@ -165,13 +165,24 @@ function CaseSearch() {
 
   const parseMetadata = (metadata) => {
     try {
+      // Handle ipc_sections - could be array, string, or undefined
+      let ipcSections = [];
+      if (metadata.ipc_sections) {
+        if (Array.isArray(metadata.ipc_sections)) {
+          ipcSections = metadata.ipc_sections;
+        } else if (typeof metadata.ipc_sections === 'string') {
+          // Split comma-separated string into array
+          ipcSections = metadata.ipc_sections.split(',').map(s => s.trim()).filter(s => s);
+        }
+      }
+
       return {
         case_name: metadata.case_name || 'Unknown Case',
         citation: metadata.citation || 'N/A',
         court: metadata.court || 'N/A',
         year: metadata.year || 'N/A',
         validity_status: metadata.validity_status || 'unknown',
-        ipc_sections: metadata.ipc_sections || []
+        ipc_sections: ipcSections
       };
     } catch {
       return null;
