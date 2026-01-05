@@ -33,6 +33,7 @@ function CaseSearch() {
     validityStatus: ''
   });
   const [searchMode, setSearchMode] = useState('semantic'); // semantic, exact, section
+  const [expandedCase, setExpandedCase] = useState(null); // Track which case is expanded
 
   // Show loading spinner while auth is initializing
   if (authLoading) {
@@ -198,6 +199,10 @@ function CaseSearch() {
       section: '',
       validityStatus: ''
     });
+  };
+
+  const toggleCaseDetails = (index) => {
+    setExpandedCase(expandedCase === index ? null : index);
   };
 
   const activeFilterCount = Object.values(filters).filter(v => v).length;
@@ -414,11 +419,20 @@ function CaseSearch() {
                   )}
 
                   <div className="result-content">
-                    <div className="case-excerpt">
-                      {result.document?.substring(0, 400)}...
+                    <div className={`case-excerpt ${expandedCase === idx ? 'expanded' : ''}`}>
+                      {expandedCase === idx
+                        ? result.document
+                        : `${result.document?.substring(0, 400)}...`
+                      }
                     </div>
-                    <button className="btn-link read-more">
-                      Read full case details →
+                    <button
+                      className="btn-link read-more"
+                      onClick={() => toggleCaseDetails(idx)}
+                    >
+                      {expandedCase === idx
+                        ? '▲ Show less'
+                        : 'Read full case details →'
+                      }
                     </button>
                   </div>
                 </div>
