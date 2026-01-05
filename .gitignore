@@ -55,6 +55,15 @@ coverage/
 .coverage.*
 htmlcov/
 
+# SSL/TLS Certificates
+nginx/ssl-local/
+certbot/conf/
+certbot/www/
+*.pem
+*.key
+*.crt
+*.csr
+
 # Misc
 .tmp/
 tmp/
