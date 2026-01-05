@@ -16,7 +16,7 @@ const LANDMARK_CASES = [
 
 function CaseSearch() {
   const navigate = useNavigate();
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, loading: authLoading } = useAuth();
   const [query, setQuery] = useState('');
   const [results, setResults] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -33,6 +33,18 @@ function CaseSearch() {
     validityStatus: ''
   });
   const [searchMode, setSearchMode] = useState('semantic'); // semantic, exact, section
+
+  // Show loading spinner while auth is initializing
+  if (authLoading) {
+    return (
+      <div className="case-search">
+        <div className="loading-container">
+          <div className="loading-spinner"></div>
+          <p>Loading...</p>
+        </div>
+      </div>
+    );
+  }
 
   // Show login prompt if not authenticated
   if (!isAuthenticated) {
