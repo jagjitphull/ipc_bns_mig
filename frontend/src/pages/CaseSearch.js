@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { apiService } from '../services/api';
+import { useAuth } from '../contexts/AuthContext';
 import UsageIndicator from '../components/UsageIndicator';
 
 // Popular landmark cases for quick access
@@ -13,6 +15,8 @@ const LANDMARK_CASES = [
 ];
 
 function CaseSearch() {
+  const navigate = useNavigate();
+  const { isAuthenticated } = useAuth();
   const [query, setQuery] = useState('');
   const [results, setResults] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -29,6 +33,56 @@ function CaseSearch() {
     validityStatus: ''
   });
   const [searchMode, setSearchMode] = useState('semantic'); // semantic, exact, section
+
+  // Show login prompt if not authenticated
+  if (!isAuthenticated) {
+    return (
+      <div className="case-search">
+        <h2>Case Law Search</h2>
+        <p className="page-description">
+          Search through 51+ landmark cases with advanced filters.
+        </p>
+
+        <div className="auth-required">
+          <div className="auth-required-icon">🔒</div>
+          <h3>Authentication Required</h3>
+          <p>Please log in to search case law and access advanced features.</p>
+          <div className="auth-actions">
+            <button
+              className="btn-primary"
+              onClick={() => navigate('/login')}
+            >
+              Log In
+            </button>
+            <button
+              className="btn-secondary"
+              onClick={() => navigate('/register')}
+            >
+              Sign Up Free - 14 Day Trial
+            </button>
+          </div>
+        </div>
+
+        {/* Show popular cases as preview */}
+        <div className="popular-cases">
+          <h3>🏛️ Popular Landmark Cases (Preview)</h3>
+          <div className="case-chips">
+            {LANDMARK_CASES.map((lcase, idx) => (
+              <div
+                key={idx}
+                className="case-chip disabled"
+                title="Login required"
+              >
+                <span className="chip-name">{lcase.name}</span>
+                <span className="chip-section">§ {lcase.section}</span>
+                <span className="chip-topic">{lcase.topic}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   const handleSearch = async (e) => {
     e.preventDefault();
