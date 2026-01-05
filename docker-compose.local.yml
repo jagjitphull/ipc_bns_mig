@@ -1,0 +1,54 @@
+version: '3.8'
+
+# Simple local development setup - Backend and Frontend only
+# No nginx, direct port access for easy debugging
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: ipc-bns-backend
+    ports:
+      - "8000:8000"  # Direct access to backend
+    volumes:
+      - ./backend/app:/app/app
+      - backend-data:/app/data
+      - chroma-db:/app/chroma_db
+    environment:
+      - PYTHONUNBUFFERED=1
+      - DATABASE_URL=sqlite:///./data/legal_reasoning.db
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - ipc-bns-network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: ipc-bns-frontend
+    ports:
+      - "3000:80"  # Direct access to frontend
+    environment:
+      - REACT_APP_API_URL=http://localhost:8000  # Direct backend connection
+    depends_on:
+      - backend
+    restart: unless-stopped
+    networks:
+      - ipc-bns-network
+
+volumes:
+  backend-data:
+    driver: local
+  chroma-db:
+    driver: local
+
+networks:
+  ipc-bns-network:
+    driver: bridge

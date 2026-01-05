@@ -6,8 +6,8 @@ services:
       context: ./backend
       dockerfile: Dockerfile
     container_name: ipc-bns-backend
-    expose:
-      - "8000"
+    ports:
+      - "8000:8000"  # Expose for local development
     volumes:
       - ./backend/app:/app/app
       - backend-data:/app/data
@@ -30,10 +30,10 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
     container_name: ipc-bns-frontend
-    expose:
-      - "80"
+    ports:
+      - "3000:80"  # Expose for local development
     environment:
-      - REACT_APP_API_URL=https://${DOMAIN_NAME:-localhost}
+      - REACT_APP_API_URL=http://localhost:8000
     depends_on:
       - backend
     restart: unless-stopped
